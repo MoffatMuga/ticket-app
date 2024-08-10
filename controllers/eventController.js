@@ -13,7 +13,7 @@ const eventCtrl = {
             })
 
             await newEvent.save()
-            res.status(201).json({msg: 'Event created successfully'})
+            res.status(201).json({ msg: 'Event created successfully' })
         } catch (error) {
             console.error('Error Adding Event', error)
             res.status(500).json({ msg: error.msg })
@@ -21,9 +21,9 @@ const eventCtrl = {
     },
     deleteEvent: async (req, res) => {
         try {
-            const { productId } = req.params.productId
-            const user = await User.findByIdByDelete(productId)
-            if (!user)
+            const eventId  = req.params.eventId
+            const deletedEvent = await Event.findByIdAndDelete(eventId)
+            if (!deletedEvent)
                 return res.status(400).json({ msg: 'Event Not Found' })
             res.json({ msg: 'Product Deleted Successfully' })
         } catch (error) {
@@ -33,18 +33,37 @@ const eventCtrl = {
     },
     updateEvent: async (req, res) => {
         try {
-            const { productId } = req.params.productId
+            const eventId = req.params.eventId
             const { location, category, date, tickets } = req.body
-
-            const updatedEvent = await Event.findByIdAndUpdate(productId, req.body, { new: true })
+            const updatedEvent = await Event.findByIdAndUpdate(eventId, req.body, { new: true })
             if (!updatedEvent)
                 return res.status(400).json({ msg: 'Event Not Found' })
 
-            res.json({ msg: 'Product updated successfully', updatedEvent });
+            res.json({ msg: 'Event updated successfully', updatedEvent });
 
         } catch (error) {
             console.error('Error Updating Event', error)
             res.status(500).json({ msg: error.msg })
+        }
+    },
+    getEvents: async (req, res) => {
+        try {
+            const events = await Event.find()
+            res.json(events)
+
+        } catch (error) {
+            console.error('Error Fetching Events', error)
+            res.status(500).json({ msg: error.msg })
+        }
+    },
+    getEventById: async(req, res) => {
+        try {
+            const eventId = req.params.eventId
+            const event = await Event.findById(eventId)
+            res.json(event)
+        } catch (error) {
+            console.error('Error Fetching Event', error)
+            res.status(500).json({ msg: 'Error Fetching Event'})
         }
     }
 }
