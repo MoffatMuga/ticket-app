@@ -5,7 +5,7 @@ const cors = require('cors')
 const authRouter = require('./routes/authRoutes')
 const {notFound, errorHandler} = require('./middlewares/errorHandler')
 const eventsRouter = require('./routes/eventsRoutes')
-// const ticketRoutes = require('./routes/ticketRoutes')
+const ticketRouter = require('./routes/ticketRoutes')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 8000
@@ -18,11 +18,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api/', authRouter)
 app.use('/api/', eventsRouter)
+app.use('/api/', ticketRouter)
 app.use(errorHandler)
 app.use(notFound)
 
-
-// app.use('/api/tickets', ticketRoutes)
 
 const connectApp = async () => {
     try {

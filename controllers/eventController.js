@@ -1,4 +1,5 @@
 const Event = require('../models/eventModel')
+const Ticket = require('../models/ticketModel')
 
 const eventCtrl = {
     addEvent: async (req, res) => {
@@ -21,7 +22,7 @@ const eventCtrl = {
     },
     deleteEvent: async (req, res) => {
         try {
-            const eventId  = req.params.eventId
+            const eventId = req.params.eventId
             const deletedEvent = await Event.findByIdAndDelete(eventId)
             if (!deletedEvent)
                 return res.status(400).json({ msg: 'Event Not Found' })
@@ -48,7 +49,7 @@ const eventCtrl = {
     },
     getEvents: async (req, res) => {
         try {
-            const events = await Event.find()
+            const events = await Event.find().populate('tickets')
             res.json(events)
 
         } catch (error) {
@@ -56,14 +57,22 @@ const eventCtrl = {
             res.status(500).json({ msg: error.msg })
         }
     },
-    getEventById: async(req, res) => {
+    getEventById: async (req, res) => {
         try {
             const eventId = req.params.eventId
             const event = await Event.findById(eventId)
             res.json(event)
         } catch (error) {
             console.error('Error Fetching Event', error)
-            res.status(500).json({ msg: 'Error Fetching Event'})
+            res.status(500).json({ msg: 'Error Fetching Event' })
+        }
+    },
+    likeEvent: async (req, res) => {
+        try {
+            const userId = req.params.userId
+
+        } catch (error) {
+
         }
     }
 }

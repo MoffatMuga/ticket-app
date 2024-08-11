@@ -8,7 +8,7 @@ router.put('/event/:eventId', authMiddleware.verifyAdmin, eventCtrl.updateEvent)
 router.delete('/event/:eventId', authMiddleware.verifyAdmin, eventCtrl.deleteEvent)
 router.get('/event/:eventId', authMiddleware.verifyAdmin, eventCtrl.getEventById)
 router.get('/event/:eventId', authMiddleware.verifyUser, eventCtrl.getEventById)
-router.get('/events', authMiddleware.verifyAdmin, eventCtrl.getEvents)
-router.get('/events', authMiddleware.verifyUser, eventCtrl.getEvents)
+router.get('/events', eventCtrl.getEvents)
+
 
 module.exports = router

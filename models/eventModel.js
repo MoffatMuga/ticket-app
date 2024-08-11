@@ -13,10 +13,10 @@ const eventSchema = new mongoose.Schema({
         type : Date,
         required : true
     },
-    tickets : {
+    tickets : [{
         type : mongoose.Schema.Types.ObjectId,
         ref: 'Ticket'
-    },
+    }],
     likes : {
         type: Number,
         default : 0
