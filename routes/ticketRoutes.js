@@ -9,5 +9,6 @@ router.put('/tickets/:ticketId', authMiddleware.verifyAdmin, ticketCtrl.updateTi
 router.delete('/tickets/:ticketId', authMiddleware.verifyAdmin, ticketCtrl.deleteTicket)
 //router.get('/tickets', ticketCtrl.getTickets)
 router.get('/tickets', ticketCtrl.getAvailableTickets)
+router.post('/tickets/book/:userId', authMiddleware.verifyUser, ticketCtrl.bookTicket)
 
 module.exports = router

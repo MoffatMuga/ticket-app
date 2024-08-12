@@ -14,7 +14,7 @@ const eventCtrl = {
             })
 
             await newEvent.save()
-            res.status(201).json({ msg: 'Event created successfully' })
+            res.status(201).json({ msg: 'Event created successfully', newEvent })
         } catch (error) {
             console.error('Error Adding Event', error)
             res.status(500).json({ msg: error.msg })
@@ -49,7 +49,13 @@ const eventCtrl = {
     },
     getEvents: async (req, res) => {
         try {
-            const events = await Event.find().populate('tickets')
+            const events = await Event.find().populate({
+                path: 'tickets',
+                select: 'price category availableTickets'
+            }).exec();
+            console.log('Populated events:', events);
+            
+          
             res.json(events)
 
         } catch (error) {

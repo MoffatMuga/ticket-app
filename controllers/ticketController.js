@@ -11,8 +11,15 @@ const ticketCtrl = {
                 price, category, availableTickets, event:eventId
             })
             
-            await newTicket.save()
-            //event.tickets.push(newTicket._id)
+            newTicket.save()
+            console.log('New Ticket Created: ', newTicket);
+            if (!event) {
+                return res.status(404).json({ msg: 'Event not found' });
+            }
+    
+            event.tickets.push(newTicket._id);
+            await event.save();
+            console.log('Updated Event with New Ticket: ', event);
             res.status(400).json({msg: 'Ticket created successfully', newTicket})
 
         } catch (error) {
@@ -69,7 +76,7 @@ const ticketCtrl = {
     },
     bookTicket: async(req, res) => {
         try {
-            const { eventId, category } = req.body
+            const { eventId, category, quantity} = req.body
             const userId = req.params.userId
 
             //Finding Events and available tickets
